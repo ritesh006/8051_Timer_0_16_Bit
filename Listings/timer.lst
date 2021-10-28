@@ -1,0 +1,95 @@
+C51 COMPILER V9.60.0.0   TIMER                                                             10/28/2021 13:12:54 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE TIMER
+OBJECT MODULE PLACED IN .\Objects\timer.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE timer.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\tim
+                    -er.lst) TABS(2) OBJECT(.\Objects\timer.obj)
+
+line level    source
+
+   1          /* In this project we are going to write a code to intialize Timer 0
+   2             Mode 1,16 bit mode and generate 5 mili seconds of delay */
+   3          
+   4          
+   5          #include<reg52.h>               /* Register address included in this file */
+   6          
+   7          void timer_zero_delay();          /* Prototyping of delay function for generating 5ms delay */
+   8          
+   9          /* Main starts */
+  10          void main ()
+  11          {
+  12   1        TMOD = 0X01;      
+  13   1        
+  14   1        /* By setting this value to TMOD registerS to timer zero, mode one is 16 bit timer mode */
+  15   1        
+  16   1      
+  17   1          while(1)/* while loop start */
+  18   1          {
+  19   2            
+  20   2            P1 = 0XFF;                /* Port one set to loic high */
+  21   2            
+  22   2            timer_zero_delay();       /* calling delay function */
+  23   2            
+  24   2            P1 = 0X00;                /* Port one set to logic low */
+  25   2            
+  26   2            timer_zero_delay();       /* calling delay function */
+  27   2            
+  28   2            
+  29   2          } /* While loop end */
+  30   1        
+  31   1      }
+  32          
+  33          /* Main ends here */
+  34          
+  35          
+  36          void timer_zero_delay()         /* function declaretion for 5msec delay */
+  37          {
+  38   1        /* Generating dealy of 5 milisec for this we set THO to logic 0 and TLO to logic 0xEE 
+  39   1           Calculate a value of THx and TLx for generatio of 5 ms delay ?
+  40   1            
+  41   1          1 count = 1.085 us 
+  42   1          how many count for = 5 ms 
+  43   1          so count is = 4608  (count is 4608)
+  44   1      
+  45   1          (Max count IN 16 bit) 65536 - 4608 = 60928 in Hexadecimal (EE00) 
+  46   1           TH0 = 00
+  47   1                 TL0 = EE
+  48   1        
+  49   1        */
+  50   1        
+  51   1        
+  52   1         TH0 = 0X00;
+  53   1         TL0 = 0XEE;
+  54   1        
+C51 COMPILER V9.60.0.0   TIMER                                                             10/28/2021 13:12:54 PAGE 2   
+
+  55   1        
+  56   1         TR0 = 1;             /* Turn on timer 0 */
+  57   1        
+  58   1        /* When timer 0 reach to max count ffff then TF0 flag will set to logic 1 
+  59   1          for this perticuler condition we are writing some code below */
+  60   1          
+  61   1          while (!TF0);
+  62   1          {
+  63   2            TR0 = 0 ;  /* Timer set to logic zero to timer set off */
+  64   2            TF0 = 0 ;  /* To clear timer overflow flag cleard up logic zero set to TRO */
+  65   2          }
+  66   1        
+  67   1        
+  68   1      }
+  69          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     33    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
